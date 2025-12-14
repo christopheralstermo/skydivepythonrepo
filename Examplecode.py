@@ -16,7 +16,7 @@ class Tracking:
         self.theJump = 0
         self.dt = 0.01
 
-        #self.theTest = 0.0
+        self.theTest = 0.0
 
 
     def run(self):
@@ -63,25 +63,13 @@ class Tracking:
 
 
     def a_horizontal(self, v):
-        # her er resultatet a = (k * v**2 * sin(angle)/m for alle sin <= 45 grader. Derfra blir det cosinus
-        abs_v = v[0]
-        e_v = v[0]
-        L = self.k * v[0] * e_v
-        aks = (self.k * v[0]**2 * sin(0))/self.m
-        return aks
+        # her er resultatet a = (k*v**2
+        pass
 
-    #def a(self, v):
-    #    self.G = array([0.0, -self.m * self.g])
-    #    abs_v = sqrt(v[0]** 2 + v[1]** 2)
-    #    e_v = v / abs_v
-    #    L = self.k * abs_v**2 * e_v
-    #    aks = (self.G - L) / self.m
-    #    return aks
-
-    def a_vertical(self, v):
-        self.G = -self.m * self.g
-        abs_v = sqrt(v[1]**2)
-        e_v = v[1] / abs_v
+    def a(self, v):
+        self.G = array([0.0, -self.m * self.g])
+        abs_v = sqrt(v[0]** 2 + v[1]** 2)
+        e_v = v / abs_v
         L = self.k * abs_v**2 * e_v
         aks = (self.G - L) / self.m
         return aks
@@ -99,13 +87,11 @@ class Tracking:
             #while t < 8:
             #while self.s[1] >= -100 and self.running:
 
-                the_vert_accelerate = self.a_vertical(self.v)
-                the_horizontal_accelerate = self.a_horizontal(self.v)
+                the_acc = self.a(self.v)
 
                 self.s += self.v * self.dt
                 #self.v[0] = 2
-                self.v[1] += the_vert_accelerate * self.dt
-                self.v[0] += the_horizontal_accelerate * self.dt
+                self.v += the_acc * self.dt
                 t += self.dt
 
                 #print(self.s[1])

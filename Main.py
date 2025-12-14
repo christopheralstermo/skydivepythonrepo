@@ -9,7 +9,7 @@ app = WSGIApp(sio)
 
 
 
-sim = Tracking(sio.emit, m=1, k=0)
+sim = Tracking(sio.emit, m=80, k=0)
 
 @sio.on('test')
 def test_simulation(sid):
@@ -37,12 +37,16 @@ def run_out(sid):
 
 @sio.on('exitjump')
 def the_exit(sid):
-    sim.theJump = 1
+    sim.theJump = 0.7
+    sim.sats = 0.0
+
+@sio.on('rotation')
+def the_rotation(sid):
+    sim.rotate()
 
 @sio.on('stop')
 def stop_simulation(sid):
-    sim.running = False
-    sim.start = False
+    sim.choke_the_game()
 
 if __name__ == '__main__':
     eventlet.wsgi.server(eventlet.listen(('0.0.0.0', 8000)), app)
